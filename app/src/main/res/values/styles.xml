@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="ProgressbarCircleSmall" parent="Widget.MaterialComponents.CircularProgressIndicator">
+
+        <item name="android:indeterminate">false</item>
+        <item name="indicatorColor">@color/peach</item>
+        <item name="trackThickness">3dp</item>
+        <item name="trackColor">@color/dark_white</item>
+        <item name="indicatorSize">35dp</item>
+        <item name="trackCornerRadius">5dp</item>
+        <item name="indicatorDirectionCircular">clockwise</item>
+    </style>
+
+    <!-- Styles for Progressbar Circle -->
+    <style name="ProgressbarCircle" parent="Widget.MaterialComponents.CircularProgressIndicator">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:indeterminate">false</item>
+        <item name="indicatorColor">@color/peach</item>
+        <item name="trackThickness">10dp</item>
+        <item name="trackColor">@color/white</item>
+        <item name="indicatorSize">100dp</item>
+        <item name="trackCornerRadius">20dp</item>
+        <item name="indicatorDirectionCircular">clockwise</item>
+    </style>
+
+    <style name="CustomDialogTheme">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@null</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="colorAccent">@color/peach</item>
+    </style>
+</resources>

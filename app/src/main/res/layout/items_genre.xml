@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/chip"
+    style="@style/Widget.MaterialComponents.Chip.Action"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:checkable="false"
+    android:lineSpacingExtra="4sp"
+    android:text="@string/adventure"
+    app:chipStrokeColor="@color/peach"
+    app:chipStrokeWidth="1dp"
+    app:chipBackgroundColor="#FFFFFF"
+    android:textColor="@color/dark"
+    android:textSize="12sp"
+    android:clickable="false"
+    app:singleLine="true" />

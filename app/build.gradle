@@ -1,0 +1,125 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-android'
+    id 'kotlin-parcelize'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    namespace 'com.movies.themoviestestapp'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "com.movies.themoviestestapp"
+        minSdk 21
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        vectorDrawables {
+            useSupportLibrary true
+        }
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments += ["room.schemaLocation": "$projectDir/schemas".toString()]
+            }
+        }
+
+        buildConfigField("String", "API_KEY", '"a63f96609672e3a84cb26bf9fd0a5883"')
+    }
+
+    viewBinding {
+        enabled = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            resValue "string", "BASE_URL", '"https://api.themoviedb.org"'
+        }
+        debug {
+            debuggable true
+            resValue "string", "BASE_URL", '"https://api.themoviedb.org"'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += [
+                "-Xjvm-default=all",
+        ]
+    }
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:$core_ktx_version"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
+    implementation "com.google.android.material:material:$material_version"
+    implementation "androidx.constraintlayout:constraintlayout:$constraint_layout_version"
+    implementation "androidx.legacy:legacy-support-v4:$legacy_support_version"
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "org.mockito:mockito-core:3.3.3"
+    // testImplementation 'org.mockito.kotlin:mockito-kotlin:4.0.0'
+    testImplementation 'androidx.arch.core:core-testing:2.1.0'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0'
+    androidTestImplementation "androidx.test.ext:$ext_junit_version"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_core_version"
+    implementation "androidx.recyclerview:recyclerview:$recycler_view_version"
+
+    // Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_gson_converter_version"
+    implementation "com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:$retrofit_kotlin_coroutines_adapter"
+
+    //OkHttp
+    implementation("com.squareup.okhttp3:okhttp")
+    implementation("com.squareup.okhttp3:logging-interceptor")
+    implementation "com.google.code.gson:gson:$gson_version"
+    implementation(platform("com.squareup.okhttp3:okhttp-bom:$okhttp_bom_version"))
+
+    //Glide Image Loader
+    implementation "com.github.bumptech.glide:glide:$glide_image_loader_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_image_loader_version"
+    kapt "com.github.bumptech.glide:annotations:$glide_image_loader_version"
+
+    // Koin
+    implementation "io.insert-koin:koin-core:$koin_version"
+    testImplementation "io.insert-koin:koin-test:$koin_version"
+    testImplementation "io.insert-koin:koin-test-junit4:$koin_version"
+    implementation "io.insert-koin:koin-android:$koin_version"
+    implementation "io.insert-koin:koin-android-compat:$koin_version"
+    implementation "io.insert-koin:koin-androidx-navigation:$koin_version"
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
+
+    // Room DB
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+
+    //Coroutine
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutine_version")
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutine_version"
+
+    //Navigation Component
+    implementation("androidx.navigation:navigation-fragment-ktx:$nav_version")
+    implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
+
+    //Preferences
+    implementation "androidx.preference:preference-ktx:$pref_version"
+}

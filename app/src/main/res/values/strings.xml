@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">TheMovies Test App</string>
+
+    <string name="rating">Rating</string>
+    <string name="internet_not_available">Hmmmm… you seem to be offline, Please check your network connection.</string>
+    <string name="adventure">Adventure</string>
+</resources>
