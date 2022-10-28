@@ -15,6 +15,7 @@ import com.movies.themoviestestapp.home.viewmodels.MainActivityViewModel
 import com.movies.themoviestestapp.home.viewmodels.TheMoviesListFragmentViewModel
 import com.movies.themoviestestapp.utils.Status
 import com.movies.themoviestestapp.utils.customviews.LoadingDialog
+import com.movies.themoviestestapp.utils.setOnLastItemScrolled
 import com.movies.themoviestestapp.utils.showToast
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -44,6 +45,10 @@ class TheMoviesListFragment : Fragment() {
         parentViewModel.showBackButton(false)
         viewModel.init()
 
+        binding.refresh.setOnClickListener {
+            viewModel.init()
+        }
+
         theMovieDbAdapter = TheMoviesAdapter(
             arrayListOf(),
             TheMoviesAdapter.ClickListenerMovie { movie ->
@@ -53,7 +58,14 @@ class TheMoviesListFragment : Fragment() {
         )
         theMovieDbAdapter.stateRestorationPolicy = RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
         binding.moviesRecyclerView.layoutManager = LinearLayoutManager(context)
+        theMovieDbAdapter.hasStableIds()
         binding.moviesRecyclerView.adapter = theMovieDbAdapter
+        binding.moviesRecyclerView.setOnLastItemScrolled {
+            viewModel.onLastItemScrolled()
+        }
+       /* viewModel.observedSearchedData.observe(viewLifecycleOwner) {
+            renderList(it)
+        }*/
 
         viewModel.observePopularMovies.observe(viewLifecycleOwner) { movies ->
             when (movies.status) {
@@ -73,12 +85,19 @@ class TheMoviesListFragment : Fragment() {
 
     private fun getCachedData() {
         viewModel.observedCachedData.observe(viewLifecycleOwner) { movies ->
-            renderList(movies)
+            renderListOffline(movies)
         }
     }
 
     private fun renderList(makeup: List<Results>) {
         theMovieDbAdapter.addData(makeup)
+        // theMovieDbAdapter.submitList(makeup)
+        theMovieDbAdapter.notifyDataSetChanged()
+    }
+
+    private fun renderListOffline(makeup: List<Results>) {
+        theMovieDbAdapter.addDataOffline(makeup)
+        // theMovieDbAdapter.submitList(makeup)
         theMovieDbAdapter.notifyDataSetChanged()
     }
 

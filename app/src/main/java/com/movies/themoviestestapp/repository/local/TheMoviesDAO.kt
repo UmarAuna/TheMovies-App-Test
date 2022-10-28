@@ -13,7 +13,7 @@ interface TheMoviesDAO {
     @Query("SELECT * FROM Results")
     fun findAll(): List<Results>
 
-    @Query("SELECT * FROM Results")
+    @Query("SELECT * FROM Results ORDER BY popularity DESC")
     fun getAllData(): LiveData<List<Results>>
 
     @Query("DELETE FROM Results")
@@ -21,4 +21,7 @@ interface TheMoviesDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun add(movies: List<Results>)
+
+    @Query("SELECT * FROM Results WHERE title LIKE :title||'%'")
+    fun getSortedData(title: String): LiveData<List<Results>>
 }

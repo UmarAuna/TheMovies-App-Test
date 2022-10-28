@@ -10,6 +10,7 @@ import com.movies.themoviestestapp.home.models.Results
 import com.movies.themoviestestapp.repository.local.TheMoviesDAO
 import com.movies.themoviestestapp.repository.repo.TheMoviesRepository
 import com.movies.themoviestestapp.utils.NetworkManager
+import com.movies.themoviestestapp.utils.Paging
 import com.movies.themoviestestapp.utils.Resource
 import com.movies.themoviestestapp.utils.emit
 import kotlinx.coroutines.Dispatchers
@@ -33,18 +34,28 @@ class TheMoviesListFragmentViewModel : ViewModel(), KoinComponent {
             it
         }
 
+    val observedSearchedData
+        get() = Transformations.map(theMoviesDAO.getSortedData("Coco")) {
+            it
+        }
+
+    private val paging = Paging()
+
     fun init() {
+        paging.reset()
         getPopularMovies()
     }
 
-    private fun getPopularMovies() {
+    private fun getPopularMovies(page: Int = 1) {
         viewModelScope.launch(Dispatchers.IO) {
             try {
                 _popularMovies.postValue(Resource.loading(null))
                 if (networkManager.isConnected(context)) {
-                    theMoviesRepo.getPopularMovies().let {
+                    theMoviesRepo.getPopularMovies(page).let {
                         if (it.isSuccessful) {
                             _popularMovies.postValue(Resource.success(it.body()?.results))
+                            paging.nextPage++
+                            paging.totalPages = PAGE_SIZE + 1
                         } else {
                             _popularMovies.postValue(Resource.error(it.message().toString(), null))
                         }
@@ -56,5 +67,15 @@ class TheMoviesListFragmentViewModel : ViewModel(), KoinComponent {
                 e.printStackTrace()
             }
         }
+    }
+
+    fun onLastItemScrolled() {
+        paging.performIfNotLastItem {
+            getPopularMovies(paging.nextPage)
+        }
+    }
+
+    companion object {
+        const val PAGE_SIZE = 500
     }
 }

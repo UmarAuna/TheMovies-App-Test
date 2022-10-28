@@ -3,6 +3,8 @@ package com.movies.themoviestestapp.utils
 import android.graphics.drawable.Drawable
 import android.widget.ImageView
 import androidx.annotation.DrawableRes
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestBuilder
 import com.bumptech.glide.RequestManager
@@ -44,3 +46,24 @@ private fun ImageView.loadImageWithGlide(
         .apply(requestOptions)
         .into(this)
 }
+
+fun RecyclerView.setOnLastItemScrolled(onLastItem: () -> Unit) {
+    addOnScrollListener(object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            (layoutManager as LinearLayoutManager).apply {
+                val visible = childCount
+                val total = itemCount
+                val past = findFirstVisibleItemPosition()
+                if ((visible == total || dy > 0) && visible + past >= total) {
+                    onLastItem()
+                }
+            }
+        }
+    })
+}
+
+inline val RecyclerView.default: RecyclerView
+    get() {
+        layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        return this
+    }

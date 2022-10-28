@@ -121,4 +121,6 @@ dependencies {
 
     //Preferences
     implementation "androidx.preference:preference-ktx:$pref_version"
+
+    implementation 'androidx.paging:paging-runtime-ktx:3.1.1'
 }
